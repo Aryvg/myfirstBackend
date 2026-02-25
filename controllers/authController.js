@@ -1,7 +1,6 @@
 const User = require('../model/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
 const handleLogin = async (req, res) => {
     const { user, pwd } = req.body;
     if (!user || !pwd) return res.status(400).json({ 'message': 'Username and password are required.' });
@@ -39,7 +38,7 @@ const handleLogin = async (req, res) => {
         // Set cookie for development: httpOnly, Lax so browser accepts it on localhost
         // Make cookie persistent across browser restarts by setting `maxAge`.
         // Match the refresh token expiry (1 day) so the cookie survives restarts.
-        res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'Lax', secure: false, maxAge: 24 * 60 * 60 * 1000 });
+        res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
         // In production set `secure: true` and consider `sameSite: 'None'` when using cross-site requests.
         //maxAge: 24 * 60 * 60 * 1000
         // Send authorization roles and access token to user
